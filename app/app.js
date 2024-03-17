@@ -8,6 +8,9 @@ const router = require("./routes");
 const configViewEngine = require("./config/viewEngine");
 const descriptionText = require("./controller/function/localFunction");
 
+require('dotenv').config()
+const config = process.env
+
 const app = express();
 
 app.use(
@@ -29,5 +32,9 @@ app.locals.descriptionText = descriptionText;
 configViewEngine(app);
 router(app);
 connectDB();
+
+app.listen(config.PORT, () => {
+  console.log(`Connected to Server on port ${config.PORT}`);
+})
 
 module.exports = app;
