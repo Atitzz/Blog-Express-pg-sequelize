@@ -1,0 +1,132 @@
+<style>
+
+  .input-group-append {
+    position: relative;
+  }
+
+  .input-group-text i {
+    font-size: 18px;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+
+  /* เมื่อ hover หรือ focus ที่ icon */
+  .input-group-text:hover i,
+  .input-group-text:focus i {
+    color: #f1c40f;
+  }
+
+</style>
+
+<%- include('../layout') %>
+
+  <form action="/users/register" method="post" class="container my-5 col-lg-4 col-md-4 needs-validation" novalidate>
+      <div
+        style="border: 1px solid #fed41a; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+        <div class="form-group">
+          <label class="form-control text-center" for=""
+            style="background-color:  #fed41a; padding: 10px; margin-bottom: 20px; font-weight: bold; color: #3c3b3b; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">Register</label>
+
+            <% if(message.length > 0) { %>
+              <div class="alert alert-danger text-center" id="custom-alert">
+                <strong><%= message %></strong>
+              </div>
+            <% } %>
+            
+          <input type="email" id="emailInput" class="form-control" placeholder="Email" name="email"
+            style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0;" required>
+          <div class="invalid-feedback">กรุณากรอกอีเมล์</div>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username" name="username"
+            style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0;" required>
+          <div class="invalid-feedback">กรุณากรอกชื่อ</div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input type="password" class="form-control" placeholder="Password" name="password" id="password"
+              style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0;" required>
+            <div class="input-group-append">
+              <span class="input-group-text" id="password-toggle"
+                style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0; background-color: transparent;">
+                <i class="fa fa-eye" onclick="togglePassword()"></i>
+              </span>
+            </div>
+            <div class="invalid-feedback">กรุณากรอกรหัสผ่าน</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword" id="password2"
+              style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0;" required>
+            <div class="input-group-append">
+              <span class="input-group-text" id="password-toggle2"
+                style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0; background-color: transparent;">
+                <i class="fa fa-eye" onclick="togglePassword2()"></i>
+              </span>
+            </div>
+            <div class="invalid-feedback">กรุณากรอกรหัสผ่าน</div>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn btn-warning form-control"
+          style="color: #3c3b3b; font-weight: bold; border-radius: 30px; padding: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">Submit
+        </button>
+      </div>
+  </form>
+
+  <div class="fixed-bottom"><%- include('../footer') %></div>
+
+  <script>
+    setTimeout(function () {
+      document.getElementById('custom-alert').style.display = 'none';
+    }, 4000);
+  </script>
+
+  <script>
+    function togglePassword() {
+      let passwordInput = document.getElementById('password');
+      let passwordToggle = document.getElementById('password-toggle');
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordToggle.innerHTML = '<i class="fa fa-eye-slash" onclick="togglePassword()"></i>'
+      } else {
+        passwordInput.type = 'password';
+        passwordToggle.innerHTML = '<i class="fa fa-eye" onclick="togglePassword()"></i>'
+      }
+    }
+
+    function togglePassword2() {
+      let passwordInput = document.getElementById('password2');
+      let passwordToggle = document.getElementById('password-toggle2');
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordToggle.innerHTML = '<i class="fa fa-eye-slash" onclick="togglePassword2()"></i>'
+      } else {
+        passwordInput.type = 'password';
+        passwordToggle.innerHTML = '<i class="fa fa-eye" onclick="togglePassword2()"></i>'
+      }
+    }
+  </script>
+
+  <script>
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>

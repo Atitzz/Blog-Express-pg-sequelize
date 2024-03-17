@@ -1,0 +1,284 @@
+<style>
+
+    .card-img {
+        width: 100%; /* กำหนดให้รูปภาพเต็มความกว้างของพื้นที่ที่กำหนดไว้ */
+        height: 500; /* กำหนดความสูงของรูปภาพ */
+    }
+
+    .comment-form {
+        margin-bottom: 20px;
+    }
+
+    .comment-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .comment-form button {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .comment-form button:hover {
+        background-color: #0066aa;
+    }
+
+    .comments-section {
+        margin-top: 30px;
+    }
+
+    .comment {   
+        position: relative;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+        /* transition: transform 0.3s ease-in-out; เพิ่ม animation */
+    }
+
+    .comment:hover {
+        transform: scale(1.02); /* ทำให้ขนาดของ comment เพิ่มขึ้นเล็กน้อยเมื่อ hover */
+    }
+
+    .comment-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* จัดให้ข้อมูล Comment และ Reply ตรงกลางกัน */
+        margin-bottom: 10px;
+    }
+
+    .comment-author {
+        font-weight: bold;
+        color: #000000;
+    }
+
+    .comment-date {
+        color: #7f7f7f;
+    }
+
+    .comment-content {
+        margin: 0;
+        line-height: 1.6;
+        color: #333;
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 10px;
+        color: #000000;
+    }
+
+    .reply-btn-container {
+        display: flex;
+        justify-content: flex-end; /* จัดให้อยู่ทางขวา */
+    }
+
+    .reply-btn {
+        color: #888;
+        text-decoration: none;
+        cursor: pointer;
+        margin-left: 10px; /* ระยะห่างระหว่างปุ่ม Reply และเนื้อหา */
+    }
+
+    .reply-btn:hover {
+        text-decoration: underline; /* ขีดเส้นใต้เมื่อ hover */
+    }
+
+    .reply-form {
+        width: 100%;
+        margin-top: 0px;
+        padding-left: 20px;
+        display: none; /* ซ่อน Reply Form เริ่มต้น */
+    }
+
+    .reply-form textarea {
+        width: calc(100% - 20px); /* ลดขนาดของ textarea ให้เหลือพื้นที่สำหรับ padding */
+        padding: 15px;
+        margin-bottom: 5px;
+        border: 1px solid #3498db;
+        border-radius: 5px;
+        resize: vertical;
+    }
+
+    .reply-form button {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .reply-form button:hover {
+        background-color: #0066aa;
+    }
+
+    .reply-comment {
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+
+    .reply-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .reply-author {
+        font-weight: bold;
+        margin-right: 10px;
+        color: #000000;
+    }
+
+    .reply-date {
+        color: #777;
+    }
+
+    .reply-content {
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+
+    .collapse {
+        transition: height 0.3s ease;
+    }
+
+    .edit-link {
+        float: right;
+        margin-top: 0rem; /* Adjust as needed */
+        font-size: 1.5rem; /* Adjust the font size as needed */
+    }
+</style>
+
+<%- include('layout') %>
+
+        <div class="container">
+            <% if(message.length > 0) { %>
+                <div class="alert alert-success text-center my-2" role="alert" id="custom-alert">
+                    <%= message %>
+                </div>
+            <% } %>    
+
+            <div class="row">
+
+                <div class="col-lg-8">
+
+                <% posts.forEach(function(post) { %>
+
+                    <h1 class="mt-4"><%= post.title %></h1>
+
+                    <p class="lead">
+                        by
+                        <a href="/posts/show/?author=<%= post.author %>"><%= post.author %></a>
+                        <a href="/edit/<%= post.id %>" class="btn btn-outline-warning edit-link">
+                            Edit <i class="fas fa-edit"></i>
+                        </a>
+                    </p>
+
+                    <hr>
+
+                    <p>Posted on <%= day(post.date).format("DD-MM-YYYY") %></p>
+
+                    <hr>
+
+                    <img class="card-img" src="/images/<%= post.img %>" alt="" width="900px" height="300px">
+
+                    <hr>
+
+                    <%- post.content %>
+
+                    <!-- แสดง Comment -->
+                    <% if(Comments) { %>
+                        <div class="comments-section">
+                            <% Comments.forEach((comment) => { %>
+                                <div class="comment">
+                                    <div class="comment-meta">
+                                        <span class="comment-author"><i class="fa-solid fa-user-pen"></i> : <u><%= comment.username %></u></span>
+                                        <span class="comment-date"><%= day(comment.createdAt).format("DD/MM/YYYY HH:mm:ss") %></span>
+                                    </div>
+                                    <hr>
+                                    <p class="comment-content mb-1"><%= comment.content %></p>
+                             
+                                    <div class="reply-btn-container ">
+                                        <button class="btn btn-link reply-btn" data-comment-id="<%= comment.id %>"><i class="fas fa-reply"></i>  Reply</button>
+                                    </div>
+                                </div>
+
+                                <!-- Reply Section -->
+                                <div id="reply-text-<%= comment.id %>" class="reply-section">
+                                    <% if(comment.Replies && comment.Replies.length > 0) { %>
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-<%= comment.id %>" aria-expanded="false" aria-controls="collapse-<%= comment.id %>">
+                                            แสดงข้อความตอบกลับ
+                                        </button>
+                                        <div class="collapse" id="collapse-<%= comment.id %>">
+                                            <% comment.Replies.forEach((reply) => { %>
+                                                <div class="reply mb-3">
+                                                    <div class="reply-meta">
+                                                        <span class="reply-author"><i class="fas fa-user-pen"></i> : <u><%= reply.username %></u></span>
+                                                        <span class="reply-date"><%= day(reply.createdAt).format("DD/MM/YYYY HH:mm:ss") %></span>
+                                                    </div>
+                                                    <p class="reply-content" style="margin-left: 33px;"><%= reply.content %></p>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                
+                                <!-- Reply Form -->                                       
+                                <div class="reply-comment">
+                                    <form action="/show/<%= post.id %>/<%= comment.id %>" method="post" class="reply-form" id="reply-form-<%= comment.id %>" >
+                                        <textarea name="reply" rows="1" placeholder="ตอบกลับความคิดเห็น..." required></textarea>
+                                        <button type="submit">Submit Reply</button>
+                                    </form>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } %>
+
+
+                    <!-- Comment Form -->
+                    <form action="/show/<%= post.id %>" method="post" class="comment-form">
+                        <textarea name="comment" id="comment" rows="4" placeholder="แสดงความคิดเห็น..." required></textarea>
+                        <button type="submit">Submit Comment</button>
+                    </form>
+
+                <% }) %>
+                </div>
+                <%- include('sidebar') %>
+            </div>
+
+        </div>
+
+
+        <%- include('footer') %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const replyButtons = document.querySelectorAll('.reply-btn');
+
+        replyButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const commentId = this.getAttribute('data-comment-id');
+                const replyForm = document.getElementById(`reply-form-${commentId}`);
+                const replyText = document.getElementById(`reply-text-${commentId}`);
+
+                // ซ่อน/แสดง Reply Form
+                replyForm.style.display = (replyForm.style.display === 'none' || replyForm.style.display === '') ? 'block' : 'none';
+            });
+        });
+    });
+</script>
+
+<script>
+    setTimeout(() => {
+        document.getElementById('custom-alert').style.display = 'none';
+    }, 4000);
+</script>

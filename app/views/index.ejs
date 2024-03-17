@@ -1,0 +1,144 @@
+<%- include('layout') %>
+
+  <style>
+    .card.mb-4 {
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-title {
+      color: #3c3b3b;
+    }
+
+    .btn-primary {
+      background-color: #fed41a;
+      color: #3c3b3b;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .card-img-top {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      width: 100%; /* กำหนดให้รูปภาพเต็มความกว้างของพื้นที่ที่กำหนดไว้ */
+      height: 400px; /* กำหนดความสูงของรูปภาพ */
+    }
+
+    .custom-btn:hover {
+      background-color: #ff8c00;
+    }
+
+    .comment-count {
+      font-size: 14px;
+      color: #888;
+      text-align: right;
+      float: right;
+      margin-top: 10px;
+    }
+  </style>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+
+        <% if (message.length> 0) { %>
+          <div class="mt-3 alert alert-success" id="custom-message">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>
+              <%= message %>
+            </strong>
+          </div>
+
+          <% } %>
+
+            <% if(Blog.length> 0) { %>
+
+              <h3 class="my-3">บทความทั้งหมด</h3>
+              <hr style="border: 1px solid #fed41a; margin-bottom: 30px" />
+
+              <% Blog.forEach((item)=> { %>
+
+                <div class="card mb-4">
+                  <img class="card-img-top" src="/images/<%= item.img %>" alt="Card image cap" />
+                  <div class="card-body">
+                    <h2 class="card-title">
+                      <%= item.title %>
+                    </h2>
+                    <p class="card-text"><%- descriptionText(item.content, 300) %></p>
+                    <a href="/show/<%= item.id %>" class="btn btn-primary custom-btn">Read More &rarr;</a>
+
+                    <!-- แสดงจำนวนคอมเม้น -->
+                    <% const commentCount = commentCounts.find(comment => comment.postId === item.id) %>
+                      <% if (commentCount && commentCount.count > 0) { %>
+                        <span class="comment-count">
+                          <%= commentCount.count %> Comment
+                        </span>
+                        <% } %>
+                  </div>
+
+                  <div class="card-footer text-muted">
+                    Posted on <%= day(item.createdAt).format('DD-MM-YYYY HH:mm') %>
+                      <a href="/posts/show/?category=<%= item.category %>">
+                        <%= item.category %>
+                      </a>, By
+                      <a href="/posts/show/?author=<%= item.author %>">
+                        <%= item.author %>
+                      </a>
+                  </div>
+                </div>
+
+                <% }) %>
+
+      </div>
+
+      <% } else { %>
+        <h1 class="m-3">"ไม่พบบทความ"</h1>
+        <% } %>
+
+          <%- include('sidebar') %>
+    </div>
+  </div>
+
+  <% if(Blog.length> 0) { %>
+    <nav aria-label="Dashboard Pagination">
+      <ul class="pagination justify-content-center mt-5">
+        <% if (currentPage==1) { %>
+          <li class="page-item disabled"><a href="#" class="page-link">First</a></li>
+          <% } else { %>
+            <li class="page-item"><a href="/?page=1" class="page-link">First</a></li>
+            <% } %>
+              <% var i=(Number(currentPage)> 5 ? Number(currentPage) - 4 : 1) %>
+                <% if(i !==1) { %>
+                  <li class="page-item disabled"><a href="#" class="page-link">...</a></li>
+                  <% } %>
+                    <% for(; i <=(Number(currentPage) + 4) && i <=pageCount; i++ ) { %>
+                      <% if (i==currentPage) { %>
+                        <li class="page-item active">
+                          <a href="#" class="page-link">
+                            <%= i %>
+                          </a>
+                        </li>
+                        <% } else { %>
+                          <li class="page-item">
+                            <a href="/?page=<%= i %>" class="page-link">
+                              <%= i %>
+                            </a>
+                          </li>
+                          <% } %>
+                            <% if (i==Number(currentPage) + 4 && i < pageCount) { %>
+                              <li class="page-item disabled"><a href="#" class="page-link">...</a></li>
+                              <% } %>
+                                <% } %>
+                                  <% if (currentPage==pageCount) { %>
+                                    <li class="page-item disabled"><a href="#" class="page-link">Last</a></li>
+                                    <% } else { %>
+                                      <li class="page-item">
+                                        <a href="/?page=<%= pageCount %>" class="page-link">Last</a>
+                                      </li>
+                                      <% } %>
+      </ul>
+    </nav>
+    <% } %> <%- include('footer') %>

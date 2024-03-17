@@ -1,0 +1,123 @@
+<%- include('layout') %>
+
+<style>
+  .card.mb-4 {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .card-title {
+    color: #3c3b3b; /* สีเทาเข้ม */
+  }
+  
+  .btn-primary {
+    background-color: #fed41a; /* สีส้ม */
+    color: #3c3b3b; /* สีเทาเข้ม */
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* เพิ่มการเปลี่ยนสีอย่างนุ่มนวล */
+  }
+  
+  .card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    width: 100%; /* กำหนดให้รูปภาพเต็มความกว้างของพื้นที่ที่กำหนดไว้ */
+    height: 400; /* กำหนดความสูงของรูปภาพ */
+  }
+
+  .custom-btn:hover {
+    background-color: #ff8c00; /* สีพื้นหลังเมื่อนำเมาส์ไปชี้ที่ปุ่ม */
+  }
+  
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .pagination a {
+    color: #3498db;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .pagination a:hover {
+    background-color: #ddd;
+  }
+
+  .pagination .active {
+    background-color: #3498db;
+    color: white;
+  }
+
+  </style>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <% if (posts.length > 0) { %>
+            <h3 class="my-4">ค้นหา "<%= search %>"</h3>
+            <hr>
+
+          <% posts.forEach(function(post) { %>
+            <div class="card mb-4">
+              <img class="card-img-top" src="/images/<%= post.img %>" alt="Card image cap">
+              <div class="card-body">
+                <h2 class="card-title"><%= post.title %></h2>
+                <p class="card-text"><%- descriptionText(post.content, 300) %>
+                </p>
+                <a href="/show/<%= post.id %>" class="btn btn-primary custom-btn">Read More &rarr;</a>
+              </div>
+              <div class="card-footer text-muted">
+                Posted on <%= day(post.date).format("DD-MM-YYYY HH:mm") %> by
+                <a href="/posts/show/?author=<%= post.author %>"><%= post.author %></a> , <a href="/posts/show/?category=<%= post.category %>"><%= post.category %></a>
+              </div>
+            </div>
+          <% }) %>
+
+        <% } else { %>
+            <h3 class="my-4">ไม่พบบทความ</h3>
+        <% } %>
+        
+      </div>
+      
+      <%- include('sidebar') %>
+
+    </div>
+  </div>
+
+
+  <div class="pagination">
+  <% if (totalPages > 1 && currentPage <= totalPages) { %>
+    <% if (currentPage == 1) { %>
+      <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+    <% } else { %>
+      <li class="page-item"><a class="page-link" href="?page=1&search=<%= search %>">First</a></li>
+    <% } %>
+
+    <% var i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+    <% if (i !== 1) { %>
+      <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+    <% } %>
+
+    <% for (; i <= totalPages && i <= (Number(currentPage) + 4); i++) { %>
+      <% if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) { %>
+        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+        </li>
+      <% } %>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+      <li class="page-item"><a class="page-link" href="?page=<%= totalPages %>&search=<%= search %>">Last</a></li>
+    <% } else { %>
+      <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+    <% } %>
+  <% } %>
+</div>
+
+  <%- include('footer') %>
+

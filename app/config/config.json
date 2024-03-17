@@ -1,0 +1,9 @@
+{
+    "development": {
+        "database": "ocgpvuym",
+        "username": "ocgpvuym",
+        "password": "lH4iiOQx8FLPDAYTBypVkbwENu31K03y",
+        "host": "floppy.db.elephantsql.com",
+        "dialect": "postgres"
+    }
+}

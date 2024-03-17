@@ -1,0 +1,121 @@
+<style>
+
+    .link {
+      margin-top: 30px;
+    }
+
+    #link-register {
+      margin-top: 10px;
+      margin-bottom: 0px;
+      margin-left: 50px;
+      color: #909090;
+    }
+
+    .input-group-append {
+      position: relative;
+    }
+
+    #password-toggle{
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .input-group-text i {
+      font-size: 18px;
+      color: #333;
+      /* สี icon เมื่อปิด */
+      transition: color 0.3s ease;
+    }
+
+    /* เมื่อ hover หรือ focus ที่ icon */
+    .input-group-text:hover i,
+    .input-group-text:focus i {
+      color: #f1c40f;
+      /* สี icon เมื่อ hover หรือ focus */
+    }
+</style>
+
+<%- include('../layout') %>
+
+  <form action="/users/login" method="post" class="container my-5 col-lg-4 col-md-4 needs-validation" novalidate>
+      <div
+        style="border: 1px solid #fed41a; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+        <div class="form-group">
+          <label class="form-control text-center" for=""
+            style="background-color:  #fed41a; padding: 10px; margin-bottom: 20px; font-weight: bold; color: #3c3b3b; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">Login</label>
+
+            <% if(message.length > 0 ) { %>
+              <div class="alert alert-danger text-center" id="custom-message">
+                <strong><%= message %></strong>
+              </div>
+            <% } %>
+
+          <input type="email" id="emailInput" class="form-control" placeholder="Email" name="email"
+            style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0;" required>
+          <div class="invalid-feedback">กรุณากรอกอีเมล์</div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input type="password" class="form-control" placeholder="Password" name="password" id="password"
+              style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0;" required>
+            <div class="input-group-append">
+              <span class="input-group-text" id="password-toggle"
+                style="border: none; border-bottom: 1px solid #fed41a; border-radius: 0;">
+                <i class="fa fa-eye" onclick="togglePassword()"></i>
+              </span>
+            </div>
+            <div class="invalid-feedback">กรุณากรอกรหัสผ่าน</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-warning form-control"
+          style="color: #3c3b3b; font-weight: bold; border-radius: 30px; padding: 10px; margin-top: 10px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">Submit
+        </button>
+        <p id="link-register">ยังไม่มีบัญชี ? <a href="/users/register"><u>สมัครสมาชิก</u></a></p>
+      </div>
+
+  </form>
+
+  <div class="fixed-bottom"><%- include('../footer') %></div>
+
+  <script>
+    setTimeout(function () {
+      document.getElementById('custom-message').style.display = 'none';
+    }, 4000);
+  </script>
+
+  <script>
+    // ฟังก์ชันสำหรับเปิด-ปิด การแสดง password
+    function togglePassword() {
+      var passwordInput = document.getElementById("password");
+      var passwordToggle = document.getElementById("password-toggle");
+
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passwordToggle.innerHTML = '<i class="fa fa-eye-slash" onclick="togglePassword()"></i>';
+      } else {
+        passwordInput.type = "password";
+        passwordToggle.innerHTML = '<i class="fa fa-eye" onclick="togglePassword()"></i>';
+      }
+    }
+  </script>
+
+  <script>
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>

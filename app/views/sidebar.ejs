@@ -1,0 +1,92 @@
+<style>
+.card.my-4 .card-header {
+  background-color: #fed41a; /* สีส้ม */
+  color: #404040; /* สีเทาเข้ม */
+}
+
+.card.my-4 .input-group-btn .btn-secondary {
+  background-color: #404040; /* สีเทาเข้ม */
+  color: #ffffff; /* สีขาว */
+}
+
+.card.my-4 .card-header, .card.my-4 .card-body {
+  color: #404040; /* สีเทาเข้ม */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.card.my-4 .list-unstyled a {
+  color: #404040; /* สีเทาเข้ม */
+
+}
+
+.card.my-4 .card-body {
+  background-color: #f4f4f4; /* สีเทาอ่อน */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.card.my-4 .card-header, .card.my-4 .card-body {
+  border-color: #fed41a; /* สีส้ม */
+}
+
+.card.my-4 .card-body {
+  background-color: #f8f9fa; /* สีขาวสด */
+}
+
+</style>
+
+<div class="col-md-4">
+  <div style="position: sticky; top: 10; z-index: 1000;">
+    <!-- Search Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Search</h5>
+      <div class="card-body">
+        <form class="form-group" action="/posts/show/" method="get">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-search fa-lg"></i> <!-- ใช้ไอคอนแว่น search ขนาดใหญ่ -->
+              </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Search for..." name="search" required>
+          </div>
+            <input type="submit" name="" value="Go" class="btn btn-secondary form-control mt-1">
+        </form>
+      </div>
+    </div>
+  
+    <!-- Categories Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Categories</h5>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <ul class="list-unstyled mb-0">
+              <% categories.forEach(function (category) { %>
+                <li>
+                  <a href="/posts/show/?category=<%= category.name %>">
+                    <%= category.name%>
+                  </a>                  
+                </li>
+                <% }) %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+    <!-- Side Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Side Widget</h5>
+      <div class="card-body">
+        You can put anything you want inside of these side widgets. They are easy to use, and feature the new
+        Bootstrap 4 card containers!
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
