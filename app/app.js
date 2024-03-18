@@ -3,13 +3,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
 
-const connectDB = require("./app/config/connect");
-const router = require("./app/routes");
-const configViewEngine = require("./app/config/viewEngine");
-const descriptionText = require("./app/controller/function/localFunction");
-
-require('dotenv').config()
-const config = process.env
+const connectDB = require("./config/connect");
+const router = require("./routes");
+const configViewEngine = require("./config/viewEngine");
+const descriptionText = require("./controller/function/localFunction");
 
 const app = express();
 
@@ -32,9 +29,5 @@ app.locals.descriptionText = descriptionText;
 configViewEngine(app);
 router(app);
 connectDB();
-
-app.listen(config.PORT, () => {
-  console.log(`Connected to Server on port ${config.PORT}`);
-})
 
 module.exports = app;
