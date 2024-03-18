@@ -9,9 +9,6 @@
 - Sequelize
 - EJS
 
-## สารบัญ 
-- [ขั้นตอนการติดตั้ง](#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%95%E0%B8%AD%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87)
-- [วิธีการใช้งาน](#%E0%B8%A7%E0%B8%B4%E0%B8%98%E0%B8%B5%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%87%E0%B8%B2%E0%B8%99)
 
 
 ## ขั้นตอนการติดตั้ง
@@ -25,6 +22,7 @@
 ##  วิธีการใช้งาน
 
     npm run start
+Open [http://localhost:3000](http://localhost:3000/) with your browser
 
 ## เครดิต
 Atit Chansateinvorakul
