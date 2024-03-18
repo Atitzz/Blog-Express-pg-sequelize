@@ -1,1 +1,2 @@
 # Blog-postgresql
+- npm i
