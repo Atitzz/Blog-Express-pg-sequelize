@@ -1,2 +1,5 @@
-# Blog-postgresql
-- npm i
+# Blog-System 
+- Express
+- PostgreSQL
+- Sequelize
+- EJS
