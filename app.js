@@ -3,10 +3,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
 
-const connectDB = require("./config/connect");
-const router = require("./routes");
-const configViewEngine = require("./config/viewEngine");
-const descriptionText = require("./controller/function/localFunction");
+const connectDB = require("./app/config/connect");
+const router = require("./app/routes");
+const configViewEngine = require("./app/config/viewEngine");
+const descriptionText = require("./app/controller/function/localFunction");
 
 require('dotenv').config()
 const config = process.env
