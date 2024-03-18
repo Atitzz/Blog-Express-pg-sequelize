@@ -1,5 +1,1 @@
-# Blog-System 
-- Express
-- PostgreSQL
-- Sequelize
-- EJS
+# Blog-postgresql
